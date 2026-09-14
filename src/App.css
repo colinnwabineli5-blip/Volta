@@ -580,6 +580,9 @@ section.intro h1 span {
   display: flex;
   flex-direction: column;
   gap: 25px;
+  border: 1px solid var(--border);
+  padding: 40px 35px;
+  background: var(--white);
 }
 
 .contact-form label {
@@ -599,12 +602,21 @@ section.intro h1 span {
   padding: 13px 0;
   outline: none;
   color: var(--black);
+  background: transparent;
   font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 0.25s ease;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
   border-color: var(--gold);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #aaa;
 }
 
 .submit-button {
@@ -1272,6 +1284,10 @@ footer {
 
   .contact-card-value {
     font-size: 13px;
+  }
+
+  .contact-form {
+    padding: 30px 22px;
   }
 
   .footer-top {
