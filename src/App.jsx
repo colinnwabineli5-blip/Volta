@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Intro from './intro'
+import Intro from './Intro'
 import Checkout from './Checkout'
 import './App.css'
 
