@@ -833,6 +833,11 @@ function ContactPage() {
     })
   }
 
+  const whatsappNumber = '2349056544866'
+  const whatsappMessage = encodeURIComponent(
+    'Hi VOLTA, I have a question about your products.'
+  )
+
   return (
     <main className="inner-page">
 
@@ -868,20 +873,51 @@ function ContactPage() {
           <p className="small-label">CONTACT</p>
           <h2>GET IN TOUCH</h2>
 
-          <div className="contact-detail">
-            <span>EMAIL</span>
-            <p>hello@volta.com</p>
+          <a
+            href="mailto:tamiloreajiboye08@gmail.com"
+            className="contact-card"
+          >
+            <span className="contact-card-label">EMAIL</span>
+            <span className="contact-card-value">
+              tamiloreajiboye08@gmail.com
+            </span>
+          </a>
+
+          <a
+            href="tel:+2349056544866"
+            className="contact-card"
+          >
+            <span className="contact-card-label">PHONE</span>
+            <span className="contact-card-value">
+              +234 905 654 4866
+            </span>
+          </a>
+
+          <div className="contact-card contact-card-static">
+            <span className="contact-card-label">LOCATION</span>
+            <span className="contact-card-value">
+              Abuja, Nigeria
+            </span>
           </div>
 
-          <div className="contact-detail">
-            <span>INSTAGRAM</span>
-            <p>@volta</p>
-          </div>
+          <a
+            href="https://www.instagram.com/volta_nigeria"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="instagram-button"
+          >
+            FOLLOW ON INSTAGRAM →
+          </a>
 
-          <div className="contact-detail">
-            <span>LOCATION</span>
-            <p>Abuja, Nigeria</p>
-          </div>
+          <a
+            href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="whatsapp-button"
+          >
+            CHAT ON WHATSAPP →
+          </a>
+
         </div>
 
 

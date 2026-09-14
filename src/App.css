@@ -492,21 +492,88 @@ section.intro h1 span {
   letter-spacing: -0.05em;
 }
 
-.contact-detail {
-  margin-bottom: 28px;
+.contact-card {
+  display: block;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  padding: 20px 0;
+  transition: padding-left 0.25s ease, border-color 0.25s ease;
 }
 
-.contact-detail span {
+.contact-card:hover {
+  padding-left: 8px;
+  border-color: var(--gold);
+}
+
+.contact-card-static {
+  border-bottom: 1px solid var(--border);
+  padding: 20px 0;
+}
+
+.contact-card-label {
+  display: block;
   color: var(--gold);
   font-size: 8px;
   font-weight: 700;
   letter-spacing: 0.15em;
+  margin-bottom: 6px;
 }
 
-.contact-detail p {
-  margin: 7px 0 0;
+.contact-card-value {
+  display: block;
   color: var(--black);
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.contact-card:hover .contact-card-value {
+  color: var(--gold);
+}
+
+.instagram-button {
+  display: block;
+  text-align: center;
+  margin-top: 35px;
+  background: linear-gradient(
+    45deg,
+    #f09433,
+    #e6683c,
+    #dc2743,
+    #cc2366,
+    #bc1888
+  );
+  color: #ffffff;
+  padding: 18px 22px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.instagram-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.whatsapp-button {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  background: #25d366;
+  color: #ffffff;
+  padding: 18px 22px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.whatsapp-button:hover {
+  background: #1ebe5b;
+  transform: translateY(-2px);
 }
 
 .contact-form {
@@ -1201,6 +1268,10 @@ footer {
 
   .contact-info {
     margin-bottom: 65px;
+  }
+
+  .contact-card-value {
+    font-size: 13px;
   }
 
   .footer-top {
