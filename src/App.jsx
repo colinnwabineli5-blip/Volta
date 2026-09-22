@@ -9,7 +9,7 @@ const products = [
     name: 'VOLTA Custom Arsenal Jersey',
     price: '₦20,000',
     priceValue: 20000,
-    image: '/volta-arsenal-jersey.jpeg',
+    image: '/volta-arsenal-jersey.png',
     description:
       'Rep the Gunners your way with a custom Volta Arsenal jersey — bold, personal, and made to stand out.',
     sizes: ['S', 'M', 'L', 'XL'],
