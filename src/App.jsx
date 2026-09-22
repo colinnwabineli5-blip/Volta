@@ -17,7 +17,7 @@ const products = [
   },
   {
     id: 2,
-    name: 'VOLTA Original Jersey (Mint)',
+    name: 'VOLTA Legacy Jersey (Mint)',
     price: '₦20,000',
     priceValue: 20000,
     image: '/volta-jersey-mint.jpeg',
@@ -28,7 +28,7 @@ const products = [
   },
   {
     id: 3,
-    name: 'VOLTA Original Jersey (Blue)',
+    name: 'VOLTA Legacy Jersey (Blue)',
     price: '₦20,000',
     priceValue: 20000,
     image: '/volta-jersey-blue.jpeg',
@@ -39,7 +39,7 @@ const products = [
   },
   {
     id: 4,
-    name: 'VOLTA Original Jersey (Green)',
+    name: 'VOLTA Legacy Jersey (Green)',
     price: '₦20,000',
     priceValue: 20000,
     image: '/volta-jersey-green.jpeg',
