@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import PaystackPop from '@paystack/inline-js'
 import emailjs from '@emailjs/browser'
+import toast from 'react-hot-toast'
 
 function Checkout({ cart, onOrderComplete }) {
   const navigate = useNavigate()
@@ -13,6 +15,7 @@ function Checkout({ cart, onOrderComplete }) {
   })
 
   const [sending, setSending] = useState(false)
+  const [paid, setPaid] = useState(false)
 
   const total = cart.reduce(
     (sum, item) => sum + item.priceValue * item.quantity,
@@ -45,18 +48,7 @@ function Checkout({ cart, onOrderComplete }) {
       .join('\n')
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    if (cart.length === 0) {
-      alert('Your bag is empty.')
-      return
-    }
-
-    setSending(true)
-
-    const orderId = generateOrderId()
-
+  const sendOrderEmail = async (orderId) => {
     const templateParams = {
       order_id: orderId,
       customer_name: form.name,
@@ -67,31 +59,93 @@ function Checkout({ cart, onOrderComplete }) {
       total: total.toLocaleString(),
     }
 
-    try {
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        templateParams,
-        {
-          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-        }
-      )
+    await emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      templateParams,
+      {
+        publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+      }
+    )
+  }
 
-      onOrderComplete()
-
-      alert(
-        `Order ${orderId} sent successfully!\n\nWe will contact you shortly to confirm payment and delivery.`
-      )
-
-      navigate('/')
-    } catch (error) {
-      console.error('EmailJS error:', error)
-      alert(
-        'Something went wrong while sending your order. Please try again or contact us directly.'
-      )
-    } finally {
-      setSending(false)
+  const handlePayment = () => {
+    if (cart.length === 0) {
+      toast.error('Your bag is empty.')
+      return
     }
+
+    if (!form.name || !form.email || !form.phone || !form.address) {
+      toast.error('Please fill in all your details first.')
+      return
+    }
+
+    const orderId = generateOrderId()
+
+    const paystack = new PaystackPop()
+
+    paystack.newTransaction({
+      key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+      email: form.email,
+      amount: total * 100,
+      currency: 'NGN',
+      reference: orderId,
+      metadata: {
+        custom_fields: [
+          {
+            display_name: 'Customer Name',
+            variable_name: 'customer_name',
+            value: form.name,
+          },
+          {
+            display_name: 'Phone',
+            variable_name: 'phone',
+            value: form.phone,
+          },
+          {
+            display_name: 'Address',
+            variable_name: 'address',
+            value: form.address,
+          },
+        ],
+      },
+      onSuccess: async (transaction) => {
+        setPaid(true)
+        setSending(true)
+
+        try {
+          await sendOrderEmail(transaction.reference)
+
+          onOrderComplete()
+
+          toast.success(
+            `Payment successful. Order ${transaction.reference} confirmed.`,
+            { duration: 6000 }
+          )
+
+          navigate('/')
+        } catch (error) {
+          console.error('Email error:', error)
+          toast.error(
+            'Payment received but we had trouble sending your order confirmation. Please contact us directly.',
+            { duration: 8000 }
+          )
+          navigate('/')
+        } finally {
+          setSending(false)
+          setPaid(false)
+        }
+      },
+      onCancel: () => {
+        toast.error('Payment cancelled. You can try again when ready.')
+      },
+      onError: (error) => {
+        console.error('Payment error:', error)
+        toast.error(
+          'Something went wrong with the payment. Please try again or contact us directly.'
+        )
+      },
+    })
   }
 
   return (
@@ -109,11 +163,8 @@ function Checkout({ cart, onOrderComplete }) {
 
       <section className="checkout-section">
 
-        {/* FORM */}
-        <form
-          className="contact-form checkout-form"
-          onSubmit={handleSubmit}
-        >
+        <div className="contact-form checkout-form">
+
           <p className="small-label">YOUR DETAILS</p>
 
           <label>
@@ -166,14 +217,23 @@ function Checkout({ cart, onOrderComplete }) {
 
           <button
             className="checkout-button"
-            type="submit"
-            disabled={sending}
+            onClick={handlePayment}
+            disabled={sending || paid}
           >
-            {sending ? 'SENDING ORDER...' : 'PLACE ORDER →'}
+            {paid
+              ? 'PAYMENT RECEIVED ✓'
+              : sending
+              ? 'PROCESSING...'
+              : `PAY ₦${total.toLocaleString()} →`}
           </button>
-        </form>
 
-        {/* SUMMARY */}
+          <p className="checkout-note">
+            Secure payment powered by Paystack. You'll be asked to
+            pay with your card or bank transfer.
+          </p>
+
+        </div>
+
         <aside className="cart-summary">
           <p className="small-label">ORDER SUMMARY</p>
 

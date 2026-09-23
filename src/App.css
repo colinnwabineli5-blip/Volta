@@ -1630,3 +1630,10 @@ footer {
     height: 260px;
   }
 }
+.checkout-note {
+  margin: 15px 0 0;
+  color: var(--grey);
+  font-size: 11px;
+  line-height: 1.7;
+  text-align: center;
+}

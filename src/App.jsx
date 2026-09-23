@@ -7,6 +7,7 @@ import {
   useParams,
   useLocation,
 } from 'react-router-dom'
+import toast from 'react-hot-toast'
 import Intro from './Intro'
 import Checkout from './Checkout'
 import './App.css'
@@ -347,7 +348,7 @@ function ProductPage({ onAddToCart }) {
 
   const handleAddToBag = () => {
     if (!selectedSize) {
-      alert('Please select a size first.')
+      toast.error('Please select a size first.')
       return
     }
     onAddToCart(product, selectedSize, quantity)
@@ -723,7 +724,7 @@ function ContactPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    alert('Thank you for contacting VOLTA.')
+    toast.success('Thank you for contacting VOLTA.')
     setForm({ name: '', email: '', message: '' })
   }
 
