@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import {
-  BrowserRouter,
   Routes,
   Route,
   useNavigate,
@@ -1042,16 +1041,4 @@ function App() {
   )
 }
 
-/* =========================
-   ROOT WRAPPER (BrowserRouter)
-========================= */
-
-function Root() {
-  return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  )
-}
-
-export default Root
+export default App
