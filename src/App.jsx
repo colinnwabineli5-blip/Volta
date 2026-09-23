@@ -902,7 +902,28 @@ function Footer() {
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [cart, setCart] = useState([])
+
+  /* Load cart from localStorage on first render */
+  const [cart, setCart] = useState(() => {
+    if (typeof window === 'undefined') return []
+
+    try {
+      const saved = localStorage.getItem('volta-cart')
+      return saved ? JSON.parse(saved) : []
+    } catch (error) {
+      console.error('Failed to load cart:', error)
+      return []
+    }
+  })
+
+  /* Save cart to localStorage whenever it changes */
+  useEffect(() => {
+    try {
+      localStorage.setItem('volta-cart', JSON.stringify(cart))
+    } catch (error) {
+      console.error('Failed to save cart:', error)
+    }
+  }, [cart])
 
   /* Intro */
   const [showIntro, setShowIntro] = useState(() => {
