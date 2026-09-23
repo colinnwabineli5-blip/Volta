@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 
-function Checkout({ cart, setPage, onOrderComplete }) {
+function Checkout({ cart, onOrderComplete }) {
+  const navigate = useNavigate()
+
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -80,7 +83,7 @@ function Checkout({ cart, setPage, onOrderComplete }) {
         `Order ${orderId} sent successfully!\n\nWe will contact you shortly to confirm payment and delivery.`
       )
 
-      setPage('home')
+      navigate('/')
     } catch (error) {
       console.error('EmailJS error:', error)
       alert(
